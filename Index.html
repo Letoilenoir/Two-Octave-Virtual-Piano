@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2 Octave Virtual Piano with Tone.js(Polyphonic)</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    .piano-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .piano {
+      display: flex;
+      position: relative;
+    }
+
+    .white-key {
+      width: 60px;
+      height: 250px;
+      background: white;
+      border: 1px solid black;
+      margin: 1px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      font-size: 14px;
+      padding-bottom: 5px;
+      cursor: pointer;
+      color: #222;
+    }
+
+    .black-key {
+      width: 40px;
+      height: 90px;
+      background: black;
+      position: absolute;
+      z-index: 2;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+      padding-top: 85px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .pressed {
+      background: yellow !important;
+    }
+
+    .label {
+      background-color: transparent;
+      padding: 2px 4px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* Manual positioning of black keys */
+    #Csharp4 { left: 45px; }
+    #Dsharp4 { left: 105px; }
+    #Fsharp4 { left: 235px; }
+    #Gsharp4 { left: 295px; }
+    #Asharp4 { left: 360px; }
+	#Csharp5 { left: 490px; }
+    #Dsharp5 { left: 555px; }
+    #Fsharp5 { left: 685px; }
+    #Gsharp5 { left: 745px; }
+    #Asharp5 { left: 810px; }
+  </style>
+</head>
+<body>
+
+<h2>2 Octave Virtual Piano (Tone.js)Polyphonic</h2>
+<p>Press keys or click the piano to play notes - Notes are labelled in parentheses eg (C#)</p>
+
+<div class="piano-container"> <!-- Covers range from Middle C (c4) to B5 mapped to keys 1234567890QW range could be extended to assign notes to ERTYUIOPASDFGHJKLZXCVBNM-->
+  <div class="piano">
+    <!-- White Keys -->
+    <div class="white-key" id="C4" data-note="C4"><span class="label">1 (C)</span></div>
+    <div class="white-key" id="D4" data-note="D4"><span class="label">3 (D)</span></div>
+    <div class="white-key" id="E4" data-note="E4"><span class="label">5 (E)</span></div>
+    <div class="white-key" id="F4" data-note="F4"><span class="label">6 (F)</span></div>
+    <div class="white-key" id="G4" data-note="G4"><span class="label">8 (G)</span></div>
+    <div class="white-key" id="A4" data-note="A4"><span class="label">0 (A)</span></div>
+    <div class="white-key" id="B4" data-note="B4"><span class="label">W (B)</span></div>
+	<div class="white-key" id="C5" data-note="C5"><span class="label">E (C)</span></div>
+    <div class="white-key" id="D5" data-note="D5"><span class="label">T (D)</span></div>
+    <div class="white-key" id="E5" data-note="E5"><span class="label">U (E)</span></div>
+    <div class="white-key" id="F5" data-note="F5"><span class="label">I (F)</span></div>
+    <div class="white-key" id="G5" data-note="G5"><span class="label">P (G)</span></div>
+    <div class="white-key" id="A5" data-note="A5"><span class="label">S (A)</span></div>
+    <div class="white-key" id="B5" data-note="B5"><span class="label">F (B)</span></div>
+
+    <!-- Black Keys -->
+    <div class="black-key" id="Csharp4" data-note="C#4"><span class="label">2 (C#)</span></div>
+    <div class="black-key" id="Dsharp4" data-note="D#4"><span class="label">4 (D#)</span></div>
+    <div class="black-key" id="Fsharp4" data-note="F#4"><span class="label">7 (F#)</span></div>
+    <div class="black-key" id="Gsharp4" data-note="G#4"><span class="label">9 (G#)</span></div>
+    <div class="black-key" id="Asharp4" data-note="A#4"><span class="label">Q (A#)</span></div>
+	<div class="black-key" id="Csharp5" data-note="C#5"><span class="label">R (C#)</span></div>
+    <div class="black-key" id="Dsharp5" data-note="D#5"><span class="label">Y (D#)</span></div>
+    <div class="black-key" id="Fsharp5" data-note="F#5"><span class="label">O (F#)</span></div>
+    <div class="black-key" id="Gsharp5" data-note="G#5"><span class="label">A (G#)</span></div>
+    <div class="black-key" id="Asharp5" data-note="A#5"><span class="label">D (A#)</span></div>
+  </div>
+</div>
+
+<div><br>
+(Polyphonic input capability - 2nd octave notes mapped)
+</div>
+
+<!-- Load Tone.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.min.js"></script>
+<script>
+  const keyMap = {
+    "Digit1": "C4", "Digit2": "C#4", "Digit3": "D4",
+    "Digit4": "D#4", "Digit5": "E4", "Digit6": "F4",
+    "Digit7": "F#4", "Digit8": "G4", "Digit9": "G#4",
+    "Digit0": "A4", "KeyQ": "A#4","KeyW": "B4",
+	"KeyE": "C5","KeyR": "C#5","KeyT": "D5",
+	"KeyY": "D#5","KeyU": "E5","KeyI": "F5",
+	"KeyO": "F#5","KeyP": "G5","KeyA": "G#5",
+	"KeyS": "A5","KeyD": "A#5","KeyF": "B5"
+	
+  };
+
+  const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+
+  async function playNote(note) {
+    await Tone.start();
+    synth.triggerAttackRelease(note, "8n");
+
+    const keyId = note.replace("#", "sharp");
+    const keyEl = document.getElementById(keyId);
+    if (keyEl) {
+      keyEl.classList.add("pressed");
+      setTimeout(() => keyEl.classList.remove("pressed"), 200);
+    }
+  }
+
+  // Keyboard input
+  document.addEventListener("keydown", (event) => {
+    const note = keyMap[event.code];
+    if (note) {
+      playNote(note);
+    }
+  });
+
+  // Mouse input
+  document.querySelectorAll(".white-key, .black-key").forEach(key => {
+    key.addEventListener("click", () => {
+      const note = key.dataset.note;
+      if (note) {
+        playNote(note);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
