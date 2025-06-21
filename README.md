@@ -40,15 +40,14 @@ Edit
 # On most systems:
 open index.html
 
-# Or just double-click index.html in your file explorer
+Or just double-click index.html in your file explorer
+
 ✅ No build steps, servers, or dependencies required. Just open the file!
 
 🎹 Keyboard Key Mapping
+
 Each key on your physical keyboard corresponds to a piano note:
 
-less
-Copy
-Edit
 Octave 1 (C4–B4): 1 2 3 4 5 6 7 8 9 0 Q W  
 Octave 2 (C5–B5): E R T Y U I O P A S D F
 Sharp notes use the following mappings:
